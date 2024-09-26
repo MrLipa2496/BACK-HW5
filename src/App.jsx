@@ -7,6 +7,7 @@ import Booking from './pages/Booking';
 import Transport from './pages/Transport';
 import Hotels from './pages/Hotels';
 import Contacts from './pages/Contacts';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App () {
   return (
@@ -19,6 +20,7 @@ function App () {
           <Route path='/transport' element={<Transport />} />
           <Route path='/hotels' element={<Hotels />} />
           <Route path='/contacts' element={<Contacts />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
     </Router>
