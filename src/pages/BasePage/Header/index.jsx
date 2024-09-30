@@ -7,6 +7,14 @@ import styles from './Header.module.sass';
 function Header () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsMenuOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMenuOpen(false);
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -16,7 +24,7 @@ function Header () {
 
   return (
     <header className={styles.headerWrapper}>
-      <NavLink className={styles.navLink} to='/'>
+      <NavLink className={styles.logoNavLink} to='/'>
         <div className={styles.headerLogoWrapper}>
           <p className={styles.headerLogo}>
             MrLipa <span className={styles.headerAbbreviation}>TA</span>
@@ -24,11 +32,14 @@ function Header () {
         </div>
       </NavLink>
 
-      <button className={styles.menuBtn} onClick={toggleMenu}>
+      <button className={styles.menuBtn} onMouseEnter={handleMouseEnter}>
         <GiHamburgerMenu />
       </button>
 
       <nav
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={toggleMenu}
         className={classNames(styles.headerNav, {
           [styles.menuOpen]: isMenuOpen,
         })}
