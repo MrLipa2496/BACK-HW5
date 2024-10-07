@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import homeBg from '../../../img/home-bg.jpg';
 import styles from './Home.module.sass';
+import TourSearch from './TourSearch';
 
 function Home () {
   return (
@@ -22,6 +23,10 @@ function Home () {
             </NavLink>
           </p>
         </div>
+      </div>
+
+      <div>
+        <TourSearch />
       </div>
     </>
   );
