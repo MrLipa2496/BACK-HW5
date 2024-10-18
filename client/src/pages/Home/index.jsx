@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import homeBg from '../../../img/home-bg.jpg';
 import styles from './Home.module.sass';
 import TourSearch from './TourSearch';
+import PopularDestinations from './PopularDestinations';
 
 function Home () {
   return (
@@ -27,6 +28,10 @@ function Home () {
 
       <div>
         <TourSearch />
+      </div>
+
+      <div>
+        <PopularDestinations />
       </div>
     </>
   );
