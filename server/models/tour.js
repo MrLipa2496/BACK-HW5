@@ -1,63 +1,54 @@
 'use strict';
 const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
   class Tour extends Model {
-    static associate (models) {}
+    static associate (models) {
+      Tour.hasMany(models.Booking, {
+        foreignKey: {
+          name: 'BK_TR_ID',
+          allowNull: false,
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE',
+      });
+
+      Tour.hasMany(models.Tour_Transportation, {
+        foreignKey: {
+          name: 'TT_TR_ID',
+          allowNull: false,
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+
+      Tour.hasMany(models.Tour_Hotel, {
+        foreignKey: {
+          name: 'TH_TR_ID',
+          allowNull: false,
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+    }
   }
   Tour.init(
     {
-      trName: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
+      TR_ID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      trDescription: {
-        type: DataTypes.TEXT,
-      },
-      trPrice: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          isDecimal: true,
-          min: 0.01,
-        },
-      },
-      trStartDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        validate: {
-          isDate: true,
-          isBefore: new Date().toISOString(),
-        },
-      },
-      trEndDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        validate: {
-          isDate: true,
-          isAfter (value) {
-            if (new Date(value) <= new Date(this.trStartDate)) {
-              throw new Error('trEndDate must be after trStartDate');
-            }
-          },
-        },
-      },
-      trTourType: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-        validate: {
-          isIn: [['Leisure', 'Excursion', 'Business trip']],
-        },
-      },
-      trDestination: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-      },
+      TR_Name: DataTypes.STRING,
+      TR_Description: DataTypes.TEXT,
+      TR_Price: DataTypes.DECIMAL,
+      TR_StartDate: DataTypes.DATE,
+      TR_EndDate: DataTypes.DATE,
+      TR_TourType: DataTypes.STRING,
+      TR_Destination: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: 'Tour',
-      underscored: true,
     }
   );
   return Tour;

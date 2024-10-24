@@ -1,56 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styles from './PopularDestinations.module.sass';
-import img from '../../../../img/in-process-img.png';
-
-const popularDestinations = [
-  {
-    id: 1,
-    destination: 'Cultural Journey to Japan',
-    description:
-      'Explore the rich history and culture of Japan, a land where ancient traditions blend seamlessly with modern innovations.',
-    price: 'from $1500',
-    imageUrl: img,
-  },
-  {
-    id: 2,
-    destination: 'Island Hopping in Greece',
-    description:
-      'Visit stunning islands like Santorini, Mykonos, Crete, and Rhodes, where sparkling turquoise waters meet white-washed buildings perched on cliffs, creating picture-perfect landscapes at every turn.',
-    price: 'from $2000',
-    imageUrl: img,
-  },
-  {
-    id: 3,
-    destination: 'Business Conference in Dubai',
-    description:
-      'Join an international business conference in Dubai, a global hub for innovation, finance, and entrepreneurship.',
-    price: 'from $4500',
-    imageUrl: img,
-  },
-];
+import img from '../../../../img/in-process-img.png'; // це поки для турів без зображень
 
 function PopularDestinations () {
+  const [tours, setTours] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('/api/tours?limit=3')
+      .then(response => {
+        setTours(response.data.data || []);
+      })
+      .catch(error => {
+        console.error('Error fetching tours:', error);
+      });
+  }, []);
+
   return (
     <div className={styles.popDesWrapper}>
       <h2 className={styles.popDesTitle}>Popular Destinations</h2>
       <div className={styles.popDesCards}>
-        {popularDestinations.map(destination => (
-          <div key={destination.id} className={styles.cardWrapper}>
-            <img
-              className={styles.tourImg}
-              src={destination.imageUrl}
-              alt={destination.destination}
-            />
-            <div className={styles.infoWrapper}>
-              <h3 className={styles.destination}>{destination.destination}</h3>
-              <p className={styles.destinDescription}>
-                {destination.description}
-              </p>
-              <p className={styles.price}>{destination.price}</p>
-              <button className={styles.detailsBtn}>View Details</button>
+        {tours.length > 0 ? (
+          tours.map(tour => (
+            <div key={tour.TR_ID} className={styles.cardWrapper}>
+              <img
+                className={styles.tourImg}
+                src={tour.imageUrl || img}
+                alt={tour.trName}
+              />
+              <div className={styles.infoWrapper}>
+                <h3 className={styles.destination}>{tour.TR_Name}</h3>
+                <p className={styles.destinDescription}>
+                  {tour.TR_Description}
+                </p>
+                <p className={styles.price}>{`from $${tour.TR_Price}`}</p>
+                <button className={styles.detailsBtn}>View Details</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No popular tours available.</p>
+        )}
       </div>
     </div>
   );
