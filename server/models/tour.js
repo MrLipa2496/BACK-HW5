@@ -38,13 +38,52 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      TR_Name: DataTypes.STRING,
-      TR_Description: DataTypes.TEXT,
-      TR_Price: DataTypes.DECIMAL,
-      TR_StartDate: DataTypes.DATE,
-      TR_EndDate: DataTypes.DATE,
-      TR_TourType: DataTypes.STRING,
-      TR_Destination: DataTypes.STRING,
+      TR_Name: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        unique: true,
+      },
+      TR_Description: {
+        type: DataTypes.TEXT,
+      },
+      TR_Price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        validate: {
+          min: 0.01,
+        },
+      },
+      TR_StartDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          isDate: true,
+          isAfter: new Date().toISOString(),
+        },
+      },
+      TR_EndDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          isDate: true,
+          isAfter (value) {
+            if (new Date(value) <= new Date(this.TR_StartDate)) {
+              throw new Error('TR_EndDate must be after TR_StartDate');
+            }
+          },
+        },
+      },
+      TR_TourType: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        validate: {
+          isIn: [['Leisure', 'Excursion', 'Business trip']],
+        },
+      },
+      TR_Destination: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
     },
     {
       sequelize,

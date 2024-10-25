@@ -3,16 +3,28 @@ POST http://localhost:5001/api/tours
 Content-Type: application/json
 
 {
-    "TR_Name": "Grand Adventure",
-    "TR_Description": "A thrilling 10-day tour through the mountains, where travelers will explore breathtaking alpine scenery, visit charming mountain villages, and take part in guided hikes.",
+    "TR_Name": "Test Tour1",
+    "TR_Description": "Test Test Test Test Test TestTest Test Test",
     "TR_Price": 1250,
     "TR_StartDate": "2024-11-01",
     "TR_EndDate": "2024-11-11",
     "TR_TourType": "Leisure",
-    "TR_Destination": "Swiss Alps"
+    "TR_Destination": "Test"
 }
 
+### 422 []
+POST http://localhost:5001/api/tours
+Content-Type: application/json
 
+{
+    "TR_Name": "Test Tour1",
+    "TR_Description": "Test Test Test Test Test TestTest Test Test",
+    "TR_Price": 1250,
+    "TR_StartDate": "2024-11-01",
+    "TR_EndDate": "2024-11-11",
+    "TR_TourType": "Leisure",
+    "TR_Destination": "Test"
+}
 
 ### 422 {users} 
 POST http://localhost:5001/api/tours
@@ -28,18 +40,4 @@ Content-Type: application/json
     "TR_Destination": "Paris"
 }
 
-
-### 500 {users} 
-POST http://localhost:5001/api/tours
-Content-Type: application/json
-
-{
-    "TR_Name": "Grand Adventure",
-    "TR_Description": "A thrilling 10-day tour through the mountains, where travelers will explore breathtaking alpine scenery, visit charming mountain villages, and take part in guided hikes.",
-    "TR_Price": 999,
-    "TR_StartDate": "2024-11-01",
-    "TR_EndDate": "2024-11-11",
-    "TR_TourType": "Leisure",
-    "TR_Destination": "Swiss Alps"
-}
 
