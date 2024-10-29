@@ -1,50 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import BeatLoader from 'react-spinners/BeatLoader';
 import styles from './PopularDestinations.module.sass';
-import img from '../../../../img/in-process-img.png'; // це поки для турів без зображень
+import img from '../../../../img/in-process-img.png';
+import { getPopularToursThunk } from '../../../store/slices/toursSlice';
 
-function PopularDestinations () {
-  const [tours, setTours] = useState([]);
-
+function PopularDestinations ({ tours, isFetching, error, getPopularTours }) {
   useEffect(() => {
-    axios
-      .get('/api/tours?limit=3')
-      .then(response => {
-        setTours(response.data.data || []);
-      })
-      .catch(error => {
-        console.error('Error fetching tours:', error);
-      });
-  }, []);
+    getPopularTours();
+  }, [getPopularTours]);
 
   return (
     <div className={styles.popDesWrapper}>
       <h2 className={styles.popDesTitle}>Popular Destinations</h2>
+      <BeatLoader loading={isFetching} />
+      {error && <div>{error.message || '!!!ERROR!!!'}</div>}
+      {tours.length === 0 && !isFetching && <p>No popular tours available.</p>}
       <div className={styles.popDesCards}>
-        {tours.length > 0 ? (
-          tours.map(tour => (
-            <div key={tour.TR_ID} className={styles.cardWrapper}>
-              <img
-                className={styles.tourImg}
-                src={tour.imageUrl || img}
-                alt={tour.trName}
-              />
-              <div className={styles.infoWrapper}>
-                <h3 className={styles.destination}>{tour.TR_Name}</h3>
-                <p className={styles.destinDescription}>
-                  {tour.TR_Description}
-                </p>
-                <p className={styles.price}>{`from $${tour.TR_Price}`}</p>
-                <button className={styles.detailsBtn}>View Details</button>
-              </div>
+        {tours.map(tour => (
+          <div key={tour.TR_ID} className={styles.cardWrapper}>
+            <img
+              className={styles.tourImg}
+              src={tour.imageUrl || img}
+              alt={tour.trName}
+            />
+            <div className={styles.infoWrapper}>
+              <h3 className={styles.destination}>{tour.TR_Name}</h3>
+              <p className={styles.destinDescription}>{tour.TR_Description}</p>
+              <p className={styles.price}>{`from $${tour.TR_Price}`}</p>
+              <button className={styles.detailsBtn}>View Details</button>
             </div>
-          ))
-        ) : (
-          <p>No popular tours available.</p>
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-export default PopularDestinations;
+const mapStateToProps = ({ toursData }) => ({
+  isFetching: toursData.isFetching,
+  error: toursData.error,
+  tours: toursData.tours,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getPopularTours: () => dispatch(getPopularToursThunk()), // Підключення до thunk
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PopularDestinations);
