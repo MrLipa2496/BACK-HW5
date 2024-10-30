@@ -84,6 +84,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
+      TR_Img: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,

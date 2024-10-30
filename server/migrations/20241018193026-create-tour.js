@@ -57,6 +57,9 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
+      TR_Img: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

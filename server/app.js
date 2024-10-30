@@ -8,6 +8,8 @@ const app = express();
 
 app.use(cors(CONSTANTS.corsOptions));
 
+app.use(express.static(CONSTANTS.STATIC_PATH));
+
 app.use(express.json());
 
 app.use('/api', router);

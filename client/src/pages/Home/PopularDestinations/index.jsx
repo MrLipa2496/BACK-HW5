@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styles from './PopularDestinations.module.sass';
-import img from '../../../../img/in-process-img.png';
+import defImg from '../../../../img/in-process-img.png';
 import { getPopularToursThunk } from '../../../store/slices/toursSlice';
 
 function PopularDestinations ({ tours, isFetching, error, getPopularTours }) {
@@ -21,8 +21,10 @@ function PopularDestinations ({ tours, isFetching, error, getPopularTours }) {
           <div key={tour.TR_ID} className={styles.cardWrapper}>
             <img
               className={styles.tourImg}
-              src={tour.imageUrl || img}
-              alt={tour.trName}
+              src={
+                tour.TR_Img ? `http://localhost:5001/${tour.TR_Img}` : defImg
+              }
+              alt={tour.TR_Name}
             />
             <div className={styles.infoWrapper}>
               <h3 className={styles.destination}>{tour.TR_Name}</h3>
