@@ -3,7 +3,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { connect } from 'react-redux';
 import { getToursThunk } from './../../store/slices/toursSlice';
 import styles from './Tours.module.sass';
-import defImg from './../../../img/in-process-img.png'; // Зображення для турів без зображень
+import defImg from './../../../img/in-process-img.png';
 
 function Tours ({ tours, isFetching, error, getTours }) {
   const [searchTerm, setSearchTerm] = useState('');
