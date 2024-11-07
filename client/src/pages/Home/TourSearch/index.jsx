@@ -44,6 +44,7 @@ const TourSearch = () => {
                 <option value=''>Select a tour type</option>
                 <option value='leisure'>Leisure</option>
                 <option value='excursion'>Excursion</option>
+                <option value='adventure'>Adventure trip</option>
                 <option value='business'>Business trip</option>
               </ValidatedField>
             </label>

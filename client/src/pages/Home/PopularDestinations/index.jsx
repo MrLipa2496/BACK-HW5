@@ -22,7 +22,9 @@ function PopularDestinations ({ tours, isFetching, error, getPopularTours }) {
             <img
               className={styles.tourImg}
               src={
-                tour.TR_Img ? `http://localhost:5001/${tour.TR_Img}` : defImg
+                tour.TR_Img
+                  ? `http://localhost:5001/images/${tour.TR_Img}`
+                  : defImg
               }
               alt={tour.TR_Name}
             />
