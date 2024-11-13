@@ -6,16 +6,17 @@ const initialState = {
   tours: [],
   isFetching: false,
   error: null,
+  totalTours: 0,
 };
 
 export const getToursThunk = createAsyncThunk(
   `${CONSTANTS.TOURS_SLICE_NAME}/get`,
-  async (payload, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
       const {
-        data: { data },
-      } = await API.getTours();
-      return data;
+        data: { data, total },
+      } = await API.getTours(page, limit);
+      return { tours: data, totalTours: total };
     } catch (err) {
       return thunkAPI.rejectWithValue({
         status: err.response.status,
@@ -51,9 +52,10 @@ const ToursSlice = createSlice({
       state.isFetching = true;
       state.error = null;
     });
-    builder.addCase(getToursThunk.fulfilled, (state, { payload }) => {
+    builder.addCase(getToursThunk.fulfilled, (state, action) => {
       state.isFetching = false;
-      state.tours = [...payload];
+      state.tours = [...state.tours, ...action.payload.tours];
+      state.totalTours = action.payload.totalTours;
     });
     builder.addCase(getToursThunk.rejected, (state, { payload }) => {
       state.isFetching = false;

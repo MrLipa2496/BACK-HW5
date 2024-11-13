@@ -57,13 +57,17 @@ module.exports.getTours = async (req, res, next) => {
       order: [['TR_Price', 'DESC']],
       raw: true,
     });
-    res.status(200).send({ data: foundTours });
+
+    const totalTours = await Tour.count();
+
+    res.status(200).send({
+      data: foundTours,
+      total: totalTours,
+    });
   } catch (err) {
     next(err);
-    console.log(err);
   }
 };
-
 module.exports.getTourById = async (req, res, next) => {
   try {
     const { tourId } = req.params;

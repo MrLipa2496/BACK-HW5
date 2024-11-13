@@ -5,17 +5,17 @@ import { getToursThunk } from './../../store/slices/toursSlice';
 import styles from './Tours.module.sass';
 import defImg from './../../../img/in-process-img.png';
 
-function Tours ({ tours, isFetching, error, getTours }) {
+function Tours ({ tours, totalTours, isFetching, error, getTours }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTours, setFilteredTours] = useState([]);
+  const [displayTours, setDisplayTours] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
 
+  // Track which tours are already displayed
   useEffect(() => {
-    console.log('Received tours:', tours);
-  }, [tours]);
-
-  useEffect(() => {
-    getTours();
-  }, [getTours]);
+    getTours({ page, limit });
+  }, [getTours, page, limit]);
 
   useEffect(() => {
     setFilteredTours(
@@ -25,6 +25,21 @@ function Tours ({ tours, isFetching, error, getTours }) {
     );
   }, [searchTerm, tours]);
 
+  useEffect(() => {
+    // Only add unique tours to displayTours
+    setDisplayTours(prevDisplayTours => {
+      const uniqueTours = filteredTours.filter(
+        tour =>
+          !prevDisplayTours.some(dispTour => dispTour.TR_ID === tour.TR_ID)
+      );
+      return [...prevDisplayTours, ...uniqueTours];
+    });
+  }, [filteredTours]);
+
+  const handleShowMore = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
   return (
     <>
       <div className={styles.headerWrapper}>
@@ -32,12 +47,7 @@ function Tours ({ tours, isFetching, error, getTours }) {
           Inspiring Tours: Create Your Memories!
         </h2>
         <p className={styles.toursSubTitle}>
-          Your next adventure is already waiting for you! Choose from a wide
-          array of tours that will inspire you to discover new sights and make
-          unforgettable moments. Whether you prefer a getaway in exotic
-          locations or an active retreat in the mountains, find a tour that will
-          leave a lasting impression in your life. Start your journey to new
-          experiences!
+          Your next adventure is already waiting for you!
         </p>
       </div>
       <div className={styles.searchInputWrapper}>
@@ -52,11 +62,9 @@ function Tours ({ tours, isFetching, error, getTours }) {
       <div className={styles.toursWrapper}>
         {isFetching && <BeatLoader loading={isFetching} />}
         {error && <div>{error.message || '!!!ERROR!!!'}</div>}
-        {filteredTours.length === 0 && !isFetching && (
-          <p>No tours available.</p>
-        )}
+        {displayTours.length === 0 && !isFetching && <p>No tours available.</p>}
         <div className={styles.tourCards}>
-          {filteredTours.map(tour => (
+          {displayTours.map(tour => (
             <div key={tour.TR_ID} className={styles.cardWrapper}>
               <img
                 className={styles.tourImg}
@@ -79,6 +87,16 @@ function Tours ({ tours, isFetching, error, getTours }) {
           ))}
         </div>
       </div>
+      {displayTours.length < filteredTours.length && (
+        <div className={styles.moreBtnContainer}>
+          <button onClick={handleShowMore} className={styles.showMoreBtn}>
+            Show more
+          </button>
+        </div>
+      )}
+      {displayTours.length >= totalTours && (
+        <p className={styles.noMoreTours}>No more tours to load.</p>
+      )}
     </>
   );
 }
@@ -87,10 +105,11 @@ const mapStateToProps = ({ toursData }) => ({
   isFetching: toursData.isFetching,
   error: toursData.error,
   tours: toursData.tours,
+  totalTours: toursData.totalTours,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getTours: () => dispatch(getToursThunk()),
+  getTours: params => dispatch(getToursThunk(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tours);
