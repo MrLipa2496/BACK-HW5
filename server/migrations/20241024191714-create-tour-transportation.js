@@ -22,7 +22,7 @@ module.exports = {
       TT_TRP_ID: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Transportations',
+          model: 'Transportation',
           key: 'TRP_ID',
         },
         allowNull: false,

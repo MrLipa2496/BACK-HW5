@@ -163,7 +163,7 @@ module.exports = {
         TR_EndDate: '2025-04-07',
         TR_TourType: 'Leisure',
         TR_Destination: 'Greece',
-        TR_Img: 'tourPhoto-1730288342075.png',
+        TR_Img: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

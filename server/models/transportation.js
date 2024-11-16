@@ -20,15 +20,43 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      TRP_Type: DataTypes.STRING,
-      TRP_CarrierName: DataTypes.STRING,
-      TRP_Cost: DataTypes.DECIMAL,
-      TRP_Phone: DataTypes.STRING,
-      TRP_Email: DataTypes.STRING,
+      TRP_Type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isIn: [['Bus', 'Train', 'Airplane', 'Car']],
+        },
+      },
+      TRP_CarrierName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      TRP_Cost: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        validate: {
+          min: 0,
+        },
+      },
+      TRP_Phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      TRP_Email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
+      },
+      TRP_Img: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,
       modelName: 'Transportation',
+      tableName: 'Transportation',
     }
   );
   return Transportation;
