@@ -27,6 +27,9 @@ module.exports = {
       HT_Email: {
         type: Sequelize.STRING,
       },
+      HT_Img: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

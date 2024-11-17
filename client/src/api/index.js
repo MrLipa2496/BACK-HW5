@@ -9,3 +9,6 @@ export const getTours = (page = 1, limit = 10) =>
 
 export const getTransportations = (page = 1, limit = 10) =>
   httpClient.get(`/transportations?page=${page}&limit=${limit}`);
+
+export const getHotels = (page, limit) =>
+  httpClient.get(`/hotels?page=${page}&limit=${limit}`);

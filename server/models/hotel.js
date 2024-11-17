@@ -20,12 +20,51 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      HT_Name: DataTypes.STRING,
-      HT_Address: DataTypes.STRING,
-      HT_Category: DataTypes.STRING,
-      HT_Stars: DataTypes.INTEGER,
-      HT_Phone: DataTypes.STRING,
-      HT_Email: DataTypes.STRING,
+      HT_Name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          is: /^[A-Z][a-z]+$/,
+          len: [2, 100],
+        },
+      },
+      HT_Address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      HT_Category: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isIn: {
+            args: [['Luxury', 'Budget', 'Middle']],
+            msg: 'Category must be one of: Luxury, Budget, Middle',
+          },
+        },
+      },
+      HT_Stars: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          isInt: { msg: 'Stars must be an integer value' },
+          min: { args: [1], msg: 'Stars must be at least 1' },
+          max: { args: [5], msg: 'Stars cannot exceed 5' },
+        },
+      },
+      HT_Phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      HT_Email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      HT_Img: { type: DataTypes.STRING },
     },
     {
       sequelize,

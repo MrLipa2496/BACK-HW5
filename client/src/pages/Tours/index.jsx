@@ -12,7 +12,6 @@ function Tours ({ tours, totalTours, isFetching, error, getTours }) {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
 
-  // Track which tours are already displayed
   useEffect(() => {
     getTours({ page, limit });
   }, [getTours, page, limit]);
@@ -26,7 +25,6 @@ function Tours ({ tours, totalTours, isFetching, error, getTours }) {
   }, [searchTerm, tours]);
 
   useEffect(() => {
-    // Only add unique tours to displayTours
     setDisplayTours(prevDisplayTours => {
       const uniqueTours = filteredTours.filter(
         tour =>

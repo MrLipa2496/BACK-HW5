@@ -1,8 +1,5 @@
 const { Router } = require('express');
-const {
-  transportsController,
-  toursController,
-} = require('../controllers/index');
+const { transportsController } = require('../controllers/index');
 const { uploadPhoto } = require('../middleware/upload');
 
 const transportRouter = Router();
