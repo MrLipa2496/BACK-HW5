@@ -27,7 +27,7 @@ export const getTransportationsThunk = createAsyncThunk(
 );
 
 const TransportationSlice = createSlice({
-  name: CONSTANTS.TRANSPORTATION_SLICE_NAME || 'transportations', // Назва має бути валідною
+  name: CONSTANTS.TRANSPORTATION_SLICE_NAME,
   initialState,
   extraReducers: builder => {
     // getTransportations
