@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { connect } from 'react-redux';
 import { getToursThunk } from './../../store/slices/toursSlice';
@@ -11,6 +12,7 @@ function Tours ({ tours, totalTours, isFetching, error, getTours }) {
   const [displayTours, setDisplayTours] = useState([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTours({ page, limit });
@@ -79,7 +81,12 @@ function Tours ({ tours, totalTours, isFetching, error, getTours }) {
                   {tour.TR_Description}
                 </p>
                 <p className={styles.price}>{`from $${tour.TR_Price}`}</p>
-                <button className={styles.detailsBtn}>View Details</button>
+                <button
+                  className={styles.detailsBtn}
+                  onClick={() => navigate(`/tours/${tour.TR_ID}`)} // Навігація до сторінки деталей
+                >
+                  View Details
+                </button>
               </div>
             </div>
           ))}
