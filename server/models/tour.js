@@ -46,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
       TR_Description: {
         type: DataTypes.TEXT,
       },
+      TR_FullInfo: {
+        type: DataTypes.TEXT,
+      },
       TR_Price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
@@ -83,6 +86,10 @@ module.exports = (sequelize, DataTypes) => {
       TR_Destination: {
         type: DataTypes.STRING(100),
         allowNull: false,
+      },
+      TR_Tags: {
+        type: DataTypes.JSON,
+        allowNull: true,
       },
       TR_Img: {
         type: DataTypes.STRING,

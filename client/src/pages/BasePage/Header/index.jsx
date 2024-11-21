@@ -7,14 +7,6 @@ import styles from './Header.module.sass';
 function Header () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsMenuOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsMenuOpen(false);
-  };
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -32,14 +24,11 @@ function Header () {
         </div>
       </NavLink>
 
-      <button className={styles.menuBtn} onMouseEnter={handleMouseEnter}>
+      <button className={styles.menuBtn} onClick={toggleMenu}>
         <GiHamburgerMenu />
       </button>
 
       <nav
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={toggleMenu}
         className={classNames(styles.headerNav, {
           [styles.menuOpen]: isMenuOpen,
         })}

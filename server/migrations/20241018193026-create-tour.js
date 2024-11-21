@@ -16,6 +16,9 @@ module.exports = {
       TR_Description: {
         type: Sequelize.TEXT,
       },
+      TR_FullInfo: {
+        type: Sequelize.TEXT,
+      },
       TR_Price: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
@@ -56,6 +59,9 @@ module.exports = {
       TR_Destination: {
         type: Sequelize.STRING(100),
         allowNull: false,
+      },
+      TR_Tags: {
+        type: Sequelize.JSON,
       },
       TR_Img: {
         type: Sequelize.STRING,

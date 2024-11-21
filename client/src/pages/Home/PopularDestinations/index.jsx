@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styles from './PopularDestinations.module.sass';
@@ -6,6 +7,8 @@ import defImg from '../../../../img/in-process-img.png';
 import { getPopularToursThunk } from '../../../store/slices/toursSlice';
 
 function PopularDestinations ({ tours, isFetching, error, getPopularTours }) {
+  const navigate = useNavigate();
+
   useEffect(() => {
     getPopularTours();
   }, [getPopularTours]);
@@ -32,7 +35,12 @@ function PopularDestinations ({ tours, isFetching, error, getPopularTours }) {
               <h3 className={styles.destination}>{tour.TR_Name}</h3>
               <p className={styles.destinDescription}>{tour.TR_Description}</p>
               <p className={styles.price}>{`from $${tour.TR_Price}`}</p>
-              <button className={styles.detailsBtn}>View Details</button>
+              <button
+                className={styles.detailsBtn}
+                onClick={() => navigate(`/tours/${tour.TR_ID}`)}
+              >
+                View Details
+              </button>
             </div>
           </div>
         ))}
